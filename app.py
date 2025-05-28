@@ -39,13 +39,27 @@ def get_weather(city, date):
 
     return forecast
 
+def calculate_score(forecast):
+    score = 0
+    for f in forecast:
+        temp_diff = abs(f["temperature"] - 15)
+        score += (10 - min(temp_diff, 10))  # max 10 poäng
+        score += max(0, 5 - f["precipitation"])  # max 5 poäng
+        score += max(0, 5 - f["wind"])  # max 5 poäng
+    return round(score / len(forecast), 1) if forecast else 0
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     date = "2025-05-30"
     weather_data = {}
     if request.method == "POST":
         for city in ["Falun", "Nyköping"]:
-            weather_data[city] = get_weather(city, date)
+            forecast = get_weather(city, date)
+            score = calculate_score(forecast)
+            weather_data[city] = {
+                "forecast": forecast,
+                "score": score
+            }
         return render_template("index.html", weather=weather_data)
     return render_template("index.html", weather=None)
 
