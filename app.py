@@ -16,22 +16,20 @@ def get_weather(city, date):
     url = (
         f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}"
         f"&hourly=temperature_2m,precipitation,windspeed_10m"
-        f"&start_date={date}&end_date={date}&timezone=Europe%2FBerlin"
+        f"&start_date={date}&end_date={date}&timezone=Europe%2FStockholm"
     )
 
     response = requests.get(url)
     data = response.json()
 
     times = data.get("hourly", {}).get("time", [])
-    target_hours = ["08:00", "12:00", "15:00", "18:00"]
-
     forecast = []
-    for target in target_hours:
-        datetime_str = f"{date}T{target}"
-        if datetime_str in times:
-            idx = times.index(datetime_str)
+
+    for idx, timestamp in enumerate(times):
+        hour_str = timestamp.split("T")[-1][:5]  # Extract HH:MM
+        if "08:00" <= hour_str <= "20:00":
             forecast.append({
-                "time": target,
+                "time": hour_str,
                 "temperature": data["hourly"]["temperature_2m"][idx],
                 "precipitation": data["hourly"]["precipitation"][idx],
                 "wind": data["hourly"]["windspeed_10m"][idx]
