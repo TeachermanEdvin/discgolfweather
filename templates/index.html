@@ -38,14 +38,23 @@
             height: 20px;
             vertical-align: middle;
         }
-        h2 {
-            text-align: center;
-        }
         .score {
             text-align: center;
             font-size: 1.2rem;
             margin-top: 0.5rem;
             color: #0057a0;
+        }
+        .rain-highlight {
+            color: #002266;
+            font-weight: bold;
+        }
+        .brainrot {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .brainrot img {
+            height: 100px;
+            margin-top: 0.5rem;
         }
         button {
             padding: 0.5rem 1rem;
@@ -69,7 +78,13 @@
         {% for city, data in weather.items() %}
         <div class="city-box">
             <h2>{{ city }}</h2>
-            <div class="score">Väderbetyg: <strong>{{ data.score }}/20</strong></div>
+            <div class="score">
+                Väderbetyg: <strong>{{ data.score }}/20</strong>
+            </div>
+            <div class="brainrot">
+                <em>{{ data.brainrot }}</em><br>
+                <img src="{{ data.brainrot_img }}" alt="{{ data.brainrot }}">
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -85,7 +100,7 @@
                     <tr>
                         <td>{{ forecast.time }}</td>
                         <td>{{ forecast.temperature }}</td>
-                        <td>{{ forecast.precipitation }}</td>
+                        <td class="{{ 'rain-highlight' if forecast.precipitation > 0 else '' }}">{{ forecast.precipitation }}</td>
                         <td>{{ forecast.wind }}</td>
                         <td>
                             {% if forecast.precipitation > 0.1 %}
