@@ -41,15 +41,15 @@ def get_weather(city, date):
 
 def brainrot_rating(score):
     if score >= 18:
-        return ("Tung tung tung sahur", "https://i.imgur.com/yhUJqTf.png")
+        return ("Tung tung tung sahur", "https://i.imgur.com/6hfXmtp.png")
     elif score >= 15:
-        return ("Rigatoni peloni", "https://i.imgur.com/qXylOMK.png")
+        return ("Brr Brr Patapim", "https://media1.tenor.com/m/rL7g71VTtXQAAAAd/brr-brr-patapim-italian-brainrot.gif")
     elif score >= 12:
-        return ("Mamma mia skadoosh", "https://i.imgur.com/r5oVtkw.png")
+        return ("Lirili Lirila", "https://i.imgur.com/j232gjM.png")
     elif score >= 9:
-        return ("Pastanardo supremissimo", "https://i.imgur.com/jZGgKoY.png")
+        return ("Burbioni Luriloni", "https://img1.yeggi.com/page_images_cache/9557421_-burbaloni-luliloli-mem-stl-file-for-3d-printing-")
     else:
-        return ("Bombardilo crocodilo", "https://i.imgur.com/sakFTkF.png")
+        return ("Bombardilo Crocodilo", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMgUOYmVmhG7BMeZp7HEZJSQHX2E868fNjDg&s")
 
 def calculate_score(forecast):
     score = 0
