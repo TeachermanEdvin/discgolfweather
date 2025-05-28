@@ -3,6 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Väder i Falun & Nyköping – 30 maj 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h2 {
+            margin-top: 2rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+    </style>
 </head>
 <body>
     <h1>Väderprognos – 30 maj 2025</h1>
@@ -11,13 +37,28 @@
     </form>
 
     {% if weather %}
-        {% for city, data in weather.items() %}
+        {% for city, forecasts in weather.items() %}
             <h2>{{ city }}</h2>
-            <ul>
-                <li>Max temperatur: {{ data.max_temp }}°C</li>
-                <li>Min temperatur: {{ data.min_temp }}°C</li>
-                <li>Nederbörd: {{ data.precipitation }} mm</li>
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tid</th>
+                        <th>Temperatur (°C)</th>
+                        <th>Nederbörd (mm)</th>
+                        <th>Vind (m/s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for forecast in forecasts %}
+                        <tr>
+                            <td>{{ forecast.time }}</td>
+                            <td>{{ forecast.temperature }}</td>
+                            <td>{{ forecast.precipitation }}</td>
+                            <td>{{ forecast.wind }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% endfor %}
     {% endif %}
 </body>
