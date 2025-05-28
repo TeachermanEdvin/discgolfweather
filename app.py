@@ -39,6 +39,18 @@ def get_weather(city, date):
 
     return forecast
 
+def brainrot_rating(score):
+    if score >= 18:
+        return ("Tung tung tung sahur", "https://i.imgur.com/yhUJqTf.png")
+    elif score >= 15:
+        return ("Rigatoni peloni", "https://i.imgur.com/qXylOMK.png")
+    elif score >= 12:
+        return ("Mamma mia skadoosh", "https://i.imgur.com/r5oVtkw.png")
+    elif score >= 9:
+        return ("Pastanardo supremissimo", "https://i.imgur.com/jZGgKoY.png")
+    else:
+        return ("Bombardilo crocodilo", "https://i.imgur.com/sakFTkF.png")
+
 def calculate_score(forecast):
     score = 0
     for f in forecast:
@@ -56,9 +68,12 @@ def index():
         for city in ["Falun", "Nyköping"]:
             forecast = get_weather(city, date)
             score = calculate_score(forecast)
+            rating, image = brainrot_rating(score)
             weather_data[city] = {
                 "forecast": forecast,
-                "score": score
+                "score": score,
+                "brainrot": rating,
+                "brainrot_img": image
             }
         return render_template("index.html", weather=weather_data)
     return render_template("index.html", weather=None)
