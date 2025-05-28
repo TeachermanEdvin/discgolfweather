@@ -1,5 +1,7 @@
+# app.py
 from flask import Flask, render_template, request, redirect, url_for
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -12,7 +14,7 @@ def get_weather(city, date):
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&start_date={date}&end_date={date}&timezone=Europe%2FBerlin"
     response = requests.get(url)
     data = response.json()
-
+    
     if "daily" in data:
         return {
             "max_temp": data["daily"]["temperature_2m_max"][0],
@@ -33,4 +35,5 @@ def index():
     return render_template("index.html", weather=None)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
