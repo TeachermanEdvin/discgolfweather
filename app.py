@@ -1,7 +1,8 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import requests
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -11,18 +12,32 @@ def get_weather(city, date):
         "Nyköping": (58.753, 17.007)
     }
     lat, lon = lat_lon[city]
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&start_date={date}&end_date={date}&timezone=Europe%2FBerlin"
+
+    url = (
+        f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}"
+        f"&hourly=temperature_2m,precipitation,windspeed_10m"
+        f"&start_date={date}&end_date={date}&timezone=Europe%2FBerlin"
+    )
+
     response = requests.get(url)
     data = response.json()
-    
-    if "daily" in data:
-        return {
-            "max_temp": data["daily"]["temperature_2m_max"][0],
-            "min_temp": data["daily"]["temperature_2m_min"][0],
-            "precipitation": data["daily"]["precipitation_sum"][0]
-        }
-    else:
-        return None
+
+    times = data.get("hourly", {}).get("time", [])
+    target_hours = ["08:00", "12:00", "15:00", "18:00"]
+
+    forecast = []
+    for target in target_hours:
+        datetime_str = f"{date}T{target}"
+        if datetime_str in times:
+            idx = times.index(datetime_str)
+            forecast.append({
+                "time": target,
+                "temperature": data["hourly"]["temperature_2m"][idx],
+                "precipitation": data["hourly"]["precipitation"][idx],
+                "wind": data["hourly"]["windspeed_10m"][idx]
+            })
+
+    return forecast
 
 @app.route("/", methods=["GET", "POST"])
 def index():
