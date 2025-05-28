@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Väder i Falun & Nyköping – 30 maj 2025</title>
+</head>
+<body>
+    <h1>Väderprognos – 30 maj 2025</h1>
+    <form method="post">
+        <button type="submit">Uppdatera vädret</button>
+    </form>
+
+    {% if weather %}
+        {% for city, data in weather.items() %}
+            <h2>{{ city }}</h2>
+            <ul>
+                <li>Max temperatur: {{ data.max_temp }}°C</li>
+                <li>Min temperatur: {{ data.min_temp }}°C</li>
+                <li>Nederbörd: {{ data.precipitation }} mm</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
