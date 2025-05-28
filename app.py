@@ -28,11 +28,13 @@ def get_weather(city, date):
     for idx, timestamp in enumerate(times):
         hour_str = timestamp.split("T")[-1][:5]  # Extract HH:MM
         if "08:00" <= hour_str <= "20:00":
+            wind_kmh = data["hourly"]["windspeed_10m"][idx]
+            wind_ms = round(wind_kmh / 3.6, 1)
             forecast.append({
                 "time": hour_str,
                 "temperature": data["hourly"]["temperature_2m"][idx],
                 "precipitation": data["hourly"]["precipitation"][idx],
-                "wind": data["hourly"]["windspeed_10m"][idx]
+                "wind": wind_ms
             })
 
     return forecast
