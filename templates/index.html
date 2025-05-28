@@ -68,40 +68,45 @@
     <div class="container">
         {% for city, data in weather.items() %}
         <div class="city-box">
-            <h2>{{ city }}</h2>
-            <div class="score">Väderbetyg: <strong>{{ data.score }}/20</strong></div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tid</th>
-                        <th>Temp (°C)</th>
-                        <th>Regn (mm)</th>
-                        <th>Vind (m/s)</th>
-                        <th>Ikoner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for forecast in data.forecast %}
-                    <tr>
-                        <td>{{ forecast.time }}</td>
-                        <td>{{ forecast.temperature }}</td>
-                        <td>{{ forecast.precipitation }}</td>
-                        <td>{{ forecast.wind }}</td>
-                        <td>
-                            {% if forecast.precipitation > 0.1 %}
-                                <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/rain.png" alt="Regn">
-                            {% else %}
-                                <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/sun.png" alt="Sol">
-                            {% endif %}
-                            {% if forecast.wind > 4 %}
-                                <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/windy-weather.png" alt="Vind">
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <h2>{{ city }}</h2>
+    <div class="score">
+        Väderbetyg: <strong>{{ data.score }}/20</strong><br>
+        <em>{{ data.brainrot }}</em><br>
+        <img src="{{ data.brainrot_img }}" alt="{{ data.brainrot }}" style="height: 80px; margin-top: 0.5rem;">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Tid</th>
+                <th>Temp (°C)</th>
+                <th>Regn (mm)</th>
+                <th>Vind (m/s)</th>
+                <th>Ikoner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for forecast in data.forecast %}
+            <tr>
+                <td>{{ forecast.time }}</td>
+                <td>{{ forecast.temperature }}</td>
+                <td>{{ forecast.precipitation }}</td>
+                <td>{{ forecast.wind }}</td>
+                <td>
+                    {% if forecast.precipitation > 0.1 %}
+                        <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/rain.png" alt="Regn">
+                    {% else %}
+                        <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/sun.png" alt="Sol">
+                    {% endif %}
+                    {% if forecast.wind > 4 %}
+                        <img class="icon" src="https://img.icons8.com/ios-filled/50/0000FF/windy-weather.png" alt="Vind">
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
         {% endfor %}
     </div>
     {% endif %}
